@@ -15,6 +15,11 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+    param_converter:
+        class: sensio/Bundle/FrameworkExtraBundle/Request/ParamConverter/DoctrineParamConverter
+        arguments: ['@doctrine_mongodb']
+        tags: 
+            - {name: 'request.param_converter', converter: 'doctrine_odm'}
     App\:
         resource: '../src/'
         exclude:

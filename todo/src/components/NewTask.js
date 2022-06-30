@@ -77,7 +77,7 @@ function NewTask({ taskSetter }) {
           step="1"
           id="customRange3"
           value={taskPriority}
-          onChange={(e) => setTaskPriority(e.target.value)}
+          onChange={(e) => setTaskPriority(parseInt(e.target.value, 10))}
         />
 
         <button className="btn btn-primary" type="submit">

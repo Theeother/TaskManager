@@ -10,17 +10,18 @@ const getTask = async (id) => {
 };
 
 const createTask = async (task) => {
-  const response = await axios.post(`${baseUrl}create`, JSON.stringify(task));
+  console.log(task);
+  const response = await axios.post(baseUrl, JSON.stringify(task));
   return response.data;
 };
 
 const updateTask = async (task) => {
-  const response = await axios.put(`${baseUrl}update`, JSON.stringify(task));
+  const response = await axios.put(`${baseUrl}${task.id}`, JSON.stringify(task));
   return response.data;
 };
 
 const deleteTask = async (id) => {
-  const response = await axios.delete(`${baseUrl}delete/${id}`);
+  const response = await axios.delete(`${baseUrl}${id}`);
   return response.data;
 };
 

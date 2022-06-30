@@ -98,7 +98,7 @@ function Task({ task, id, taskFunctions }) {
                 step="1"
                 id="customRange3"
                 value={priority}
-                onChange={(e) => setPriority(e.target.value)}
+                onChange={(e) => setPriority(parseInt(e.target.value, 10))}
               />
             </div>
           ) : (

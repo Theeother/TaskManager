@@ -4,6 +4,7 @@ namespace App\Document;
 
 use Doctrine\Bundle\MongoDBBundle\Repository\ServiceDocumentRepository as ServiceDocumentRepository;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ODM\Document(collection="tasks")
@@ -17,10 +18,12 @@ class Task
 
     /**
      * @ODM\Field(type="string")
+     * @assert\NotBlank()
      */
     private string $title;
     /**
      * @ODM\Field(type="string")
+     * @assert\NotBlank()
      */
     private string $description;
 

@@ -46,6 +46,7 @@ function App() {
       }
       return task;
     }, []));
+    taskService.updateTask(id, { done: !tasks.find((task) => task.id === id).done });
   }
   function deleteTask(id) {
     tasks.forEach((task) => {
