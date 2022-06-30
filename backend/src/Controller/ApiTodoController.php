@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 /**
@@ -62,11 +63,10 @@ class ApiTodoController extends AbstractController
     /**
      * @Route("/{id}", name="update", methods={"PUT"})
      */
-    public function update(Request $request, string $id): JsonResponse
+    public function update(Request $request, Task $task): JsonResponse
     {
-        $oldTask = $this->resolver->show($id);
         $task = $this->serializer->deserialize($request->getContent(), Task::class, 'json', [
-            'object_to_populate' => $oldTask
+            AbstractNormalizer::OBJECT_TO_POPULATE => $task
         ]);
         $task = $this->resolver->update($task);
         $json = $this->serializer->serialize($task, 'json');

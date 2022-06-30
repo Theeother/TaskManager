@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ODM\Document(collection="tasks")
  */
-class Task 
+class Task
 {
     /**
      * @ODM\Id
@@ -56,7 +56,7 @@ class Task
         return $this->title;
     }
 
-    public function setTitle($title): Task
+    public function setTitle($title): self
     {
         $this->title = $title;
         return $this;
@@ -67,7 +67,7 @@ class Task
         return $this->description;
     }
 
-    public function setDescription($description): Task
+    public function setDescription($description): self
     {
         $this->description = $description;
         return $this;
@@ -78,7 +78,7 @@ class Task
         return $this->color;
     }
 
-    public function setColor($color): Task
+    public function setColor($color): self
     {
         $this->color = $color;
         return $this;
@@ -89,7 +89,7 @@ class Task
         return $this->priority;
     }
 
-    public function setPriority($priority): Task
+    public function setPriority($priority): self
     {
         $this->priority = (int) $priority;
         return $this;
@@ -100,7 +100,7 @@ class Task
         return $this->done;
     }
 
-    public function setDone($done): Task
+    public function setDone($done): self
     {
         $this->done = (bool) $done;
         return $this;
