@@ -33,10 +33,11 @@ function App() {
     setUndone(undoneExist + 1);
   }
   function toggleDone(id) {
+    let newState;
     setTasks(tasks.map((task) => {
       if (task.id === id) {
         task.done = !task.done;
-        taskService.updateTask(task);
+        newState = task.done;
         if (task.done) {
           setDone(doneExist + 1);
           setUndone(undoneExist - 1);
@@ -47,7 +48,8 @@ function App() {
       }
       return task;
     }, []));
-    taskService.updateTask();
+
+    taskService.updateTask({ id, done: newState });
   }
   function deleteTask(id) {
     tasks.forEach((task) => {
