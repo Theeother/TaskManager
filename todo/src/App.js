@@ -36,6 +36,7 @@ function App() {
     setTasks(tasks.map((task) => {
       if (task.id === id) {
         task.done = !task.done;
+        taskService.updateTask(task);
         if (task.done) {
           setDone(doneExist + 1);
           setUndone(undoneExist - 1);
@@ -46,7 +47,7 @@ function App() {
       }
       return task;
     }, []));
-    taskService.updateTask(id, { done: !tasks.find((task) => task.id === id).done });
+    taskService.updateTask();
   }
   function deleteTask(id) {
     tasks.forEach((task) => {
