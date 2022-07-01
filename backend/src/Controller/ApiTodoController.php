@@ -42,9 +42,8 @@ class ApiTodoController extends AbstractController
     /**
      * @Route("/{id}", name="get", methods={"GET"})
      */
-    public function show(string $id): JsonResponse
+    public function show(Task $task): JsonResponse
     {
-        $task = $this->resolver->show($id);
         $json = $this->serializer->serialize($task, 'json');
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
@@ -61,7 +60,7 @@ class ApiTodoController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="update", methods={"PUT"})
+     * @Route("/{id}", name="update", methods={"PATCH"})
      */
     public function update(Request $request, Task $task): JsonResponse
     {
@@ -76,9 +75,9 @@ class ApiTodoController extends AbstractController
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
-    public function delete(string $id): JsonResponse
+    public function delete(Task $task): JsonResponse
     {
-        $task = $this->resolver->delete($id);
+        $task = $this->resolver->delete($task);
         $json = $this->serializer->serialize($task, 'json');
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }

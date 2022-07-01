@@ -13,30 +13,28 @@ Class TaskResolver {
     $this->dm = $dm;
   }
 
-  public function showAll() {
-    $task = $this->dm->getRepository(Task::class)->findAll();
-    return $task;
+  public function showAll()
+  {
+    $tasks = $this->dm->getRepository(Task::class)->findAll();
+    return $tasks;
   }
 
-  public function show($id) {
-    $task = $this->dm->getRepository(Task::class)->find($id);
-    return $task;
-  }
-
-  public function create($task) {
+  public function create(Task $task): Task
+  {
     $this->dm->persist($task);
     $this->dm->flush();
     return $task;
   }
 
-  public function update($task) {
+  public function update($task): Task
+  {
     $this->dm->persist($task);
     $this->dm->flush();
     return $task;
   }
 
-  public function delete($id) {
-    $task = $this->dm->getRepository(Task::class)->find($id);
+  public function delete(Task $task): Task
+  {
     $this->dm->remove($task);
     $this->dm->flush();
     return $task;
