@@ -1,6 +1,6 @@
 import React from 'react';
 
-function NewTask({
+function TaskForm({
   editing, taskSetter, task, formFunctions,
 }) {
   const [ title, setTitle ] = React.useState(editing ? task.title : '');
@@ -171,4 +171,4 @@ function NewTask({
     </div>
   );
 }
-export default NewTask;
+export default TaskForm;

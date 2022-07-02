@@ -3,9 +3,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import { BsSortDownAlt } from 'react-icons/bs';
-import NewTask from './components/NewTask';
 import Task from './components/Task';
 import taskService from './services/task.service';
+import TaskForm from './components/TaskForm';
 
 function App() {
   const [ adding, setAdding ] = React.useState(false);
@@ -102,7 +102,7 @@ function App() {
                     }}
                   />
                 ) : (
-                  <NewTask className="my-3" editing task={task} formFunctions={{ addEditing, editTask, deleteEditing }} />
+                  <TaskForm className="my-3" editing task={task} formFunctions={{ addEditing, editTask, deleteEditing }} />
                 )}
             </div>
           )));
@@ -139,7 +139,7 @@ function App() {
               />
             </nav>
           )}
-        {adding && <NewTask taskSetter={addTask} />}
+        {adding && <TaskForm taskSetter={addTask} />}
         <br />
         <div className="d-flex flex-row justify-content-around flex-wrap col-sm-12">
           <div className="col-sm-4">
