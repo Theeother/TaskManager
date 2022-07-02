@@ -9,8 +9,19 @@ import taskService from './services/task.service';
 
 function App() {
   const [ adding, setAdding ] = React.useState(false);
+  const [ editing, setEditing ] = React.useState([]);
   const [ filter, setFilter ] = React.useState('');
   const [ tasks, setTasks ] = React.useState([]);
+
+  const addEditing = (id) => {
+    setEditing([ ...editing, id ]);
+  };
+
+  const deleteEditing = (id) => {
+    console.log(id);
+    setEditing(editing.filter((task) => task.id === id));
+    console.log(editing);
+  };
 
   const sortTasks = () => {
     setTasks([ ...tasks ].sort((a, b) => b.priority - a.priority));
@@ -63,6 +74,10 @@ function App() {
     getTasks();
   }, []);
 
+  useEffect(() => {
+    console.log(editing);
+  }, [ editing ]);
+
   const renderListOfTasks = (areDone) => (
     (tasks.filter((task) => task.done === areDone).length === 0) ? <div className="alert alert-danger" role="alert">No tasks found</div>
       : tasks.filter(
@@ -72,15 +87,25 @@ function App() {
       )
         .map((task) => task.done === areDone
           && (
-            <Task
-              className="my-3"
-              task={task}
-              key={task.id}
-              id={task.id}
-              taskFunctions={{ toggle: toggleDone, delete: deleteTask, edit: editTask }}
-            />
-          ), [])
-  );
+            <div key={task.id}>
+              {!editing.includes(task.id)
+                ? (
+                  <Task
+                    className="my-3"
+                    task={task}
+                    key={task.id}
+                    id={task.id}
+                    taskFunctions={{
+                      toggle: toggleDone,
+                      delete: deleteTask,
+                      addEditing,
+                    }}
+                  />
+                ) : (
+                  <NewTask className="my-3" editing task={task} formFunctions={{ addEditing, editTask, deleteEditing }} />
+                )}
+            </div>
+          )));
 
   return (
     <div className="App">
