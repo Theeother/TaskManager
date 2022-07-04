@@ -6,7 +6,7 @@ import { BsSortDownAlt } from 'react-icons/bs';
 import Task from './components/Task';
 import taskService from './services/task.service';
 import TaskForm from './components/TaskForm';
-import useBoolean from './costumHooks/useBoolean';
+import useBoolean from './customHooks/useBoolean';
 
 function App() {
   const [ adding, toggleAdding ] = useBoolean(false);
