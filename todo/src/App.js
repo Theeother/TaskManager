@@ -6,9 +6,10 @@ import { BsSortDownAlt } from 'react-icons/bs';
 import Task from './components/Task';
 import taskService from './services/task.service';
 import TaskForm from './components/TaskForm';
+import useBoolean from './costumHooks/useBoolean';
 
 function App() {
-  const [ adding, setAdding ] = useState(false);
+  const [ adding, toggleAdding ] = useBoolean(false);
   const [ editing, setEditing ] = useState([]);
   const [ filter, setFilter ] = useState('');
   const [ tasks, setTasks ] = useState([]);
@@ -32,7 +33,7 @@ function App() {
       console.log(response);
       task.id = response.id;
       setTasks(tasks.concat(task));
-      setAdding(!adding);
+      toggleAdding();
     });
   }
   function toggleDone(id) {
@@ -106,7 +107,7 @@ function App() {
         <button
           className="btn btn-primary"
           type="button"
-          onClick={() => setAdding(!adding)}
+          onClick={() => toggleAdding()}
         >
           <AiOutlineAppstoreAdd />
           Add Task
