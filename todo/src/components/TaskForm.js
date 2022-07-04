@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import taskService from '../services/task.service';
 
 function TaskForm({
   editing, addTask, task, formFunctions,
@@ -20,9 +21,8 @@ function TaskForm({
     });
   };
 
-  const EditTask = (e) => {
+  const editTask = (e) => {
     e.preventDefault();
-    console.log(task.id);
     const newTask = {
       id: task.id,
       title,
@@ -31,24 +31,17 @@ function TaskForm({
       color,
       done: task.done,
     };
-    console.log(newTask);
-    formFunctions.editTask(newTask);
-    formFunctions.deleteEditing(task.id);
-  };
-
-  const CancelEdit = () => {
-    setTitle(task.title);
-    setDescription(task.description);
-    setPriority(task.priority);
-    setColor(task.color);
-    formFunctions.deleteEditing(task.id);
+    taskService.updateTask(newTask).then((response) => {
+      formFunctions.deleteEditing(task.id);
+      formFunctions.getTasks();
+    });
   };
 
   return (
     <div>
       <div className={`mx-5 card text-center ${done ? 'border-' : 'text-bg-'}${editing ? color : 'light'}`}>
         <form onSubmit={(e) => {
-          if (editing) EditTask(e);
+          if (editing) editTask(e);
           else {
             saveNewTask(e);
           }
@@ -130,7 +123,7 @@ function TaskForm({
             {editing ? (
               <span>
                 <button type="submit" className="btn btn-primary">Save</button>
-                <button type="button" className="btn btn-danger" onClick={() => CancelEdit()}>Cancel</button>
+                <button type="button" className="btn btn-danger" onClick={() => formFunctions.deleteEditing(task.id)}>Cancel</button>
               </span>
             ) : (
               <button className="btn btn-success" type="submit">

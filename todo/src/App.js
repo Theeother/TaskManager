@@ -14,6 +14,12 @@ function App() {
   const [ filter, setFilter ] = useState('');
   const [ tasks, setTasks ] = useState([]);
 
+  const getTasks = () => {
+    taskService.getAllTasks().then((newTasks) => {
+      setTasks(newTasks.data);
+    });
+  };
+
   const addEditing = (id) => {
     setEditing([ ...editing, id ]);
   };
@@ -30,43 +36,10 @@ function App() {
   };
   function addTask(task) {
     taskService.createTask(task).then((response) => {
-      console.log(response);
-      task.id = response.id;
-      setTasks(tasks.concat(task));
+      getTasks();
       toggleAdding();
     });
   }
-  function toggleDone(id) {
-    let done;
-    setTasks(tasks.map((task) => {
-      if (task.id === id) {
-        task.done = !task.done;
-        done = task.done;
-      }
-      return task;
-    }, []));
-
-    taskService.updateTask({ id, done });
-  }
-  function deleteTask(id) {
-    setTasks(tasks.filter((task) => task.id !== id));
-    taskService.deleteTask(id);
-  }
-  function editTask(newTask) {
-    setTasks(tasks.map((task) => {
-      if (task.id === newTask.id) {
-        return newTask;
-      }
-      return task;
-    }, []));
-    taskService.updateTask(newTask);
-  }
-
-  const getTasks = () => {
-    taskService.getAllTasks().then((newTasks) => {
-      setTasks(newTasks.data);
-    });
-  };
 
   useEffect(() => {
     getTasks();
@@ -89,13 +62,12 @@ function App() {
                     task={task}
                     key={task.id}
                     taskFunctions={{
-                      toggleDone,
-                      deleteTask,
+                      getTasks,
                       addEditing,
                     }}
                   />
                 ) : (
-                  <TaskForm className="my-3" editing task={task} formFunctions={{ addEditing, editTask, deleteEditing }} />
+                  <TaskForm className="my-3" editing task={task} formFunctions={{ getTasks, deleteEditing }} />
                 )}
             </div>
           )));
