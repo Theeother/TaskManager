@@ -3,14 +3,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
 import { BsSortDownAlt } from 'react-icons/bs';
-import Task from './components/Task';
 import taskService from './services/task.service';
 import TaskForm from './components/TaskForm';
 import useBoolean from './customHooks/useBoolean';
+import TaskList from './components/TaskList';
 
 function App() {
   const [ adding, toggleAdding ] = useBoolean(false);
-  const [ editing, setEditing ] = useState([]);
   const [ filter, setFilter ] = useState('');
   const [ tasks, setTasks ] = useState([]);
 
@@ -20,20 +19,10 @@ function App() {
     });
   };
 
-  const addEditing = (id) => {
-    setEditing([ ...editing, id ]);
-  };
-
-  const deleteEditing = (id) => {
-    setEditing(editing.filter((taskId) => taskId !== id));
-  };
-
   const sortTasks = () => {
     setTasks([ ...tasks ].sort((a, b) => b.priority - a.priority));
   };
-  const search = (e) => {
-    setFilter(e.target.value);
-  };
+
   function addTask(task) {
     taskService.createTask(task).then((response) => {
       getTasks();
@@ -44,33 +33,6 @@ function App() {
   useEffect(() => {
     getTasks();
   }, []);
-
-  const renderListOfTasks = (areDone) => (
-    (tasks.filter((task) => task.done === areDone).length === 0) ? <div className="alert alert-danger" role="alert">No tasks found</div>
-      : tasks.filter(
-        (task) => task.done === areDone
-          && ((task.title.toLowerCase().includes(filter.toLowerCase()
-            || task.description.toLowerCase().includes(filter.toLowerCase()))) || filter === ''),
-      )
-        .map((task) => task.done === areDone
-          && (
-            <div key={task.id}>
-              {!editing.includes(task.id)
-                ? (
-                  <Task
-                    className="my-3"
-                    task={task}
-                    key={task.id}
-                    taskFunctions={{
-                      getTasks,
-                      addEditing,
-                    }}
-                  />
-                ) : (
-                  <TaskForm className="my-3" editing task={task} formFunctions={{ getTasks, deleteEditing }} />
-                )}
-            </div>
-          )));
 
   return (
     <div className="App">
@@ -100,7 +62,7 @@ function App() {
                 value={filter}
                 placeholder="Search"
                 aria-label="Search"
-                onChange={(e) => search(e)}
+                onChange={(e) => setFilter(e.target.value)}
               />
             </nav>
           )}
@@ -109,11 +71,19 @@ function App() {
         <div className="d-flex flex-row justify-content-around flex-wrap col-sm-12">
           <div className="col-sm-4">
             <h2>To Do</h2>
-            {renderListOfTasks(false)}
+            <TaskList
+              tasks={tasks.filter((task) => task.done === false)}
+              filter={filter}
+              editingFunctions={{ getTasks }}
+            />
           </div>
           <div className="col-sm-4">
             <h2>Done</h2>
-            {renderListOfTasks(true)}
+            <TaskList
+              tasks={tasks.filter((task) => task.done === true)}
+              filter={filter}
+              editingFunctions={{ getTasks }}
+            />
           </div>
         </div>
       </header>
