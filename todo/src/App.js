@@ -19,7 +19,7 @@ function App() {
 
   const deleteEditing = (id) => {
     console.log(id);
-    setEditing(editing.filter((task) => task.id === id));
+    setEditing(editing.filter((taskId) => taskId !== id));
     console.log(editing);
   };
 
