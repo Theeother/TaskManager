@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function TaskForm({
-  editing, taskSetter, task, formFunctions,
+  editing, addTask, task, formFunctions,
 }) {
-  const [ title, setTitle ] = React.useState(editing ? task.title : '');
-  const [ description, setDescription ] = React.useState(editing ? task.description : '');
-  const [ priority, setPriority ] = React.useState(editing ? task.priority : 0);
-  const [ color, setColor ] = React.useState(editing ? task.color : 'primary');
+  const [ title, setTitle ] = useState(editing ? task.title : '');
+  const [ description, setDescription ] = useState(editing ? task.description : '');
+  const [ priority, setPriority ] = useState(editing ? task.priority : 0);
+  const [ color, setColor ] = useState(editing ? task.color : 'primary');
 
   const saveNewTask = (e) => {
     e.preventDefault();
-    taskSetter({
+    addTask({
       title,
       description,
       priority,

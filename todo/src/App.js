@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { AiOutlineAppstoreAdd } from 'react-icons/ai';
@@ -8,19 +8,17 @@ import taskService from './services/task.service';
 import TaskForm from './components/TaskForm';
 
 function App() {
-  const [ adding, setAdding ] = React.useState(false);
-  const [ editing, setEditing ] = React.useState([]);
-  const [ filter, setFilter ] = React.useState('');
-  const [ tasks, setTasks ] = React.useState([]);
+  const [ adding, setAdding ] = useState(false);
+  const [ editing, setEditing ] = useState([]);
+  const [ filter, setFilter ] = useState('');
+  const [ tasks, setTasks ] = useState([]);
 
   const addEditing = (id) => {
     setEditing([ ...editing, id ]);
   };
 
   const deleteEditing = (id) => {
-    console.log(id);
     setEditing(editing.filter((taskId) => taskId !== id));
-    console.log(editing);
   };
 
   const sortTasks = () => {
@@ -60,7 +58,6 @@ function App() {
       }
       return task;
     }, []));
-    console.log(newTask);
     taskService.updateTask(newTask);
   }
 
@@ -73,10 +70,6 @@ function App() {
   useEffect(() => {
     getTasks();
   }, []);
-
-  useEffect(() => {
-    console.log(editing);
-  }, [ editing ]);
 
   const renderListOfTasks = (areDone) => (
     (tasks.filter((task) => task.done === areDone).length === 0) ? <div className="alert alert-danger" role="alert">No tasks found</div>
@@ -94,10 +87,9 @@ function App() {
                     className="my-3"
                     task={task}
                     key={task.id}
-                    id={task.id}
                     taskFunctions={{
-                      toggle: toggleDone,
-                      delete: deleteTask,
+                      toggleDone,
+                      deleteTask,
                       addEditing,
                     }}
                   />
@@ -139,7 +131,7 @@ function App() {
               />
             </nav>
           )}
-        {adding && <TaskForm taskSetter={addTask} />}
+        {adding && <TaskForm addTask={addTask} />}
         <br />
         <div className="d-flex flex-row justify-content-around flex-wrap col-sm-12">
           <div className="col-sm-4">

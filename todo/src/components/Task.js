@@ -4,20 +4,13 @@ import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai';
 function Task({
   task, taskFunctions,
 }) {
-  const ToggleDone = () => {
-    taskFunctions.toggle(task.id);
-  };
-  const DeleteTask = () => {
-    taskFunctions.delete(task.id);
-  };
-
   return (
     <div>
       <div className={`mx-5 card text-center ${task.done ? 'border-' : 'text-bg-'}${task.color}`}>
         <div className="card-header px-5">
           <input
             className="form-check-input"
-            onChange={ToggleDone}
+            onChange={(e) => taskFunctions.toggleDone(task.id)}
             type="checkbox"
             checked={task.done}
             value="Done"
@@ -27,7 +20,7 @@ function Task({
           <button
             type="button"
             className="btn btn-danger"
-            onClick={DeleteTask}
+            onClick={(e) => taskFunctions.deleteTask(task.id)}
           >
             <AiOutlineDelete />
           </button>
@@ -49,7 +42,6 @@ function Task({
           </button>
         </div>
       </div>
-
     </div>
   );
 }
