@@ -19,7 +19,8 @@ function TaskForm({
     });
   };
 
-  const EditTask = () => {
+  const EditTask = (e) => {
+    e.preventDefault();
     console.log(task.id);
     const newTask = {
       id: task.id,
@@ -114,57 +115,61 @@ function TaskForm({
       ) : (
 
         <div className={`mx-5 card text-center ${task.done ? 'border-' : 'text-bg-'}${task.color}`}>
-          <div className="card-header px-5">
-            <input
-              type="text"
-              id="title"
-              className="form-control"
-              value={title}
-              placeholder="New task title"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </div>
-          <div className="card-body">
-            <input
-              type="text"
-              id="desc"
-              className="form-control"
-              value={description}
-              placeholder="New task description"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-            <div>
-              {`priority: ${priority}`}
+          <form onSubmit={(e) => EditTask(e)}>
+            <div className="card-header px-5">
               <input
-                type="range"
-                className="form-range"
-                min="0"
-                max="20"
-                step="1"
-                id="customRange3"
-                value={priority}
-                onChange={(e) => setPriority(parseInt(e.target.value, 10))}
+                type="text"
+                id="title"
+                className="form-control"
+                value={title}
+                placeholder="New task title"
+                onChange={(e) => setTitle(e.target.value)}
+                required
               />
             </div>
-          </div>
-          <select
-            id="dropdown"
-            className="form-control"
-            defaultValue={task.color}
-            onChange={(e) => setColor(e.target.value)}
-          >
-            <option value="primary">Blue</option>
-            <option value="secondary">Grey</option>
-            <option value="success">Green</option>
-            <option value="danger">Red</option>
-            <option value="warning">Yellow</option>
-          </select>
-          <div className="card-footer text-muted">
-            <span>
-              <button type="button" className="btn btn-primary" onClick={() => EditTask()}>Save</button>
-              <button type="button" className="btn btn-danger" onClick={() => CancelEdit()}>Cancel</button>
-            </span>
-          </div>
+            <div className="card-body">
+              <input
+                type="text"
+                id="desc"
+                className="form-control"
+                value={description}
+                placeholder="New task description"
+                onChange={(e) => setDescription(e.target.value)}
+                required
+              />
+              <div>
+                {`priority: ${priority}`}
+                <input
+                  type="range"
+                  className="form-range"
+                  min="0"
+                  max="20"
+                  step="1"
+                  id="customRange3"
+                  value={priority}
+                  onChange={(e) => setPriority(parseInt(e.target.value, 10))}
+                />
+              </div>
+            </div>
+            <select
+              id="dropdown"
+              className="form-control"
+              defaultValue={task.color}
+              onChange={(e) => setColor(e.target.value)}
+            >
+              <option value="primary">Blue</option>
+              <option value="secondary">Grey</option>
+              <option value="success">Green</option>
+              <option value="danger">Red</option>
+              <option value="warning">Yellow</option>
+            </select>
+            <div className="card-footer text-muted">
+              <span>
+                <button type="submit" className="btn btn-primary">Save</button>
+                <button type="button" className="btn btn-danger" onClick={() => CancelEdit()}>Cancel</button>
+              </span>
+            </div>
+          </form>
         </div>
       )}
 
